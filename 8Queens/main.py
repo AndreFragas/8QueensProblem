@@ -10,7 +10,7 @@ def main():
     chessTable = ChessTable(quantidadeRainhas)
     
     for individuo in listaIndividuosIniciais:
-        getFitness(chessTable, individuo)
+        getFitness(chessTable.tabuleiro, individuo)
 
     # for linha in chessTable.tabuleiro:
     #     for coluna in linha:
@@ -18,8 +18,8 @@ def main():
     #     print()
     
     # for individuo in listaIndividuosIniciais:
-    #     for i in individuo.listaPosicoes:
-    #         print(i)
-    #     print("---")
+    #    for i in individuo.listaPosicoes:
+    #        print(i)
+    #    print("---")
     
 main()

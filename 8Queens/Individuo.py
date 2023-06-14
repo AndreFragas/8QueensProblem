@@ -6,3 +6,6 @@ class Individuo :
     
     def get_property(self, property_name):
         return getattr(self, property_name)
+    
+    def set_Fitness(self, value: int):
+        self.fitness = value

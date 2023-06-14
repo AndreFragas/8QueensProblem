@@ -9,17 +9,27 @@ def main():
     listaIndividuosIniciais : List[Individuo] = gerarIndividuosIniciais(2, quantidadeRainhas)
     chessTable = ChessTable(quantidadeRainhas)
     
-    for index ,individuo in listaIndividuosIniciais:
+    for index, individuo in listaIndividuosIniciais:
         auxiliar = listaIndividuosIniciais[index]
         auxiliar.set_Fitness(getFitness(chessTable.tabuleiro, individuo))
         listaIndividuosIniciais[index] = auxiliar
         
     for individuo in listaIndividuosIniciais:
-        table = copy.deepcopy(chessTable.tabuleiro)
+        melhoresIndividuos : List[Individuo] = []
+        if (melhoresIndividuos.count < 2):
+            melhoresIndividuos.append(individuo)
+        else:
+            piorIndividuo : List[Individuo] = []
+            for best in melhoresIndividuos:
+                if(best.fitness > individuo.fitness):
+                    piorIndividuo.append(best)
+                    
         
-        for index, rainha in enumerate(individuo.listaPosicoes):
-            table[rainha][index] = 1
+        # table = copy.deepcopy(chessTable.tabuleiro)
+        
+        # for index, rainha in enumerate(individuo.listaPosicoes):
+        #     table[rainha][index] = 1
             
-        printChessTable(table)
+        # printChessTable(table)
     
 main()

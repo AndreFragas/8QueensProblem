@@ -1,4 +1,6 @@
+from typing import List
 from Individuo import Individuo
+from ChessTable import ChessTable
 import random
 import copy
 
@@ -25,13 +27,8 @@ def getFitness(tableChess, individuo : Individuo):
     for index, rainha in enumerate(individuo.listaPosicoes):
         table[rainha][index] = 1
         
-    printChessTable(table)
-        
     for index ,rainha in enumerate(individuo.listaPosicoes):
-        # print("Linha ",index,": ",getNumberOfConflitsInRow(table, rainha, index))
-        # print("Coluna ",index,": ",getNumberOfConflitsInCollumn(table, rainha, index))
-        # print("Diagonal",index,": ",getNumberOfConflitsInDiagonally(table, rainha, index))
-        fitness = getNumberOfConflitsInRow(table, rainha, index) + getNumberOfConflitsInCollumn(table, rainha, index) + getNumberOfConflitsInDiagonally(table, rainha, index)
+        fitness += getNumberOfConflitsInRow(table, rainha, index) + getNumberOfConflitsInCollumn(table, rainha, index) + getNumberOfConflitsInDiagonally(table, rainha, index)
         
     return fitness
     
@@ -99,7 +96,82 @@ def printChessTable(chessTable):
             print(coluna, end=' ')
         print()
     
+def getMelhoresIndividuos(listaIndividuos: List[Individuo]):
+    melhoresIndividuos : List[Individuo] = []
+    best1 = listaIndividuos[0]
+    best2 = listaIndividuos[1]
+    for individuo in listaIndividuos:
+        if(best1.fitness < individuo.fitness):
+            if(best1.fitness < best2.fitness):
+                best2 = individuo
+            else:
+                best1 = individuo
+        elif(best2.fitness < individuo.fitness):
+            best2 = individuo
+            
+    melhoresIndividuos.append(best1)
+    melhoresIndividuos.append(best2)
+                
+    return melhoresIndividuos
+
+def gerarIndividuosPorCrossover(pai, mae):
+    listaIndividuos : List[Individuo] = [] 
+    for _ in range(5):
+        corte = random.randint(1, len(pai.listaPosicoes) - 2)
+        paiList = pai.listaPosicoes[0: corte]
+        maeList = mae.listaPosicoes[corte: ]
+        lista = []
+        for p in paiList:
+            lista.append(p)
+        for m in maeList:
+            lista.append(m)
+        newIndividuo = Individuo(pai.geracao + 1, lista) 
+        listaIndividuos.append(newIndividuo)
         
+    listaIndividuos.append(pai)
+    listaIndividuos.append(mae)
+        
+    return listaIndividuos
+
+def mutation(generation):
+    listaIndividuos : List[Individuo] = []
+    for individuo in generation:
+        chance = random.randint(1, 20)
+    
+        if (chance == 1):
+            rainha1 = random.randint(0, len(individuo.listaPosicoes) - 1)
+            rainha2 = random.randint(0, len(individuo.listaPosicoes) - 1)
+            auxiliar = individuo.listaPosicoes[rainha1]
+            individuo.listaPosicoes[rainha1] = individuo.listaPosicoes[rainha2]
+            individuo.listaPosicoes[rainha2] = auxiliar
+
+        listaIndividuos.append(individuo)
+    
+    return listaIndividuos
+
+def verifyWinner(listaIndividuos, quantidadeRainhas):
+    for individuo in listaIndividuos:
+        if (individuo.fitness == 0):
+            chessTable = ChessTable(quantidadeRainhas)
+            
+            for index, rainha in enumerate(individuo.listaPosicoes):
+                chessTable.tabuleiro[rainha][index] = 1
+                
+            printChessTable(chessTable.tabuleiro)
+            print(individuo.listaPosicoes)
+            print(individuo.geracao)
+            return True
+        
+    return False
+        
+        
+        
+    
+        
+        
+    
+    
+    
     
         
     

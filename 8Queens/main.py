@@ -6,30 +6,24 @@ def main():
     print("Que comecem os jogos:" )
     quantidadeRainhas = int(input("Digite um número para a quantidade de rainhas e tamanho do tabuleiro: "))
     
-    listaIndividuosIniciais : List[Individuo] = gerarIndividuosIniciais(2, quantidadeRainhas)
+    newGeneration : List[Individuo] = gerarIndividuosIniciais(8, quantidadeRainhas)
     chessTable = ChessTable(quantidadeRainhas)
     
-    for index, individuo in listaIndividuosIniciais:
-        auxiliar = listaIndividuosIniciais[index]
-        auxiliar.set_Fitness(getFitness(chessTable.tabuleiro, individuo))
-        listaIndividuosIniciais[index] = auxiliar
-        
-    for individuo in listaIndividuosIniciais:
-        melhoresIndividuos : List[Individuo] = []
-        if (melhoresIndividuos.count < 2):
-            melhoresIndividuos.append(individuo)
-        else:
-            piorIndividuo : List[Individuo] = []
-            for best in melhoresIndividuos:
-                if(best.fitness > individuo.fitness):
-                    piorIndividuo.append(best)
-                    
-        
-        # table = copy.deepcopy(chessTable.tabuleiro)
-        
+    for individuo in newGeneration:
+        individuo.set_Fitness(getFitness(chessTable.tabuleiro, individuo))
+        chess = ChessTable(quantidadeRainhas)
         # for index, rainha in enumerate(individuo.listaPosicoes):
-        #     table[rainha][index] = 1
-            
-        # printChessTable(table)
+        #     chess.tabuleiro[rainha][index] = 1
+        # printChessTable(chess.tabuleiro)
+        # print(individuo.listaPosicoes)
+        # print(individuo.fitness)
+        
+    # while (verifyWinner(newGeneration, quantidadeRainhas) == False):
+    
+    #     melhoresIndividuos : List[Individuo] = getMelhoresIndividuos(newGeneration)
+    #     newGeneration = gerarIndividuosPorCrossover(melhoresIndividuos[0], melhoresIndividuos[1])
+    #     newGeneration = mutation(newGeneration)
+    
+    # print("Acabouuuuuuuuuuuuuu")
     
 main()

@@ -5,25 +5,23 @@ from ChessTable import ChessTable
 def main():
     print("Que comecem os jogos:" )
     quantidadeRainhas = int(input("Digite um número para a quantidade de rainhas e tamanho do tabuleiro: "))
-    
+
     newGeneration : List[Individuo] = gerarIndividuosIniciais(8, quantidadeRainhas)
     chessTable = ChessTable(quantidadeRainhas)
-    
+
     for individuo in newGeneration:
         individuo.set_Fitness(getFitness(chessTable.tabuleiro, individuo))
-        chess = ChessTable(quantidadeRainhas)
-        # for index, rainha in enumerate(individuo.listaPosicoes):
-        #     chess.tabuleiro[rainha][index] = 1
-        # printChessTable(chess.tabuleiro)
-        # print(individuo.listaPosicoes)
-        # print(individuo.fitness)
-        
-    # while (verifyWinner(newGeneration, quantidadeRainhas) == False):
-    
-    #     melhoresIndividuos : List[Individuo] = getMelhoresIndividuos(newGeneration)
-    #     newGeneration = gerarIndividuosPorCrossover(melhoresIndividuos[0], melhoresIndividuos[1])
-    #     newGeneration = mutation(newGeneration)
-    
-    # print("Acabouuuuuuuuuuuuuu")
-    
+
+    for i in newGeneration:
+      i.set_Fitness(getFitness(chessTable.tabuleiro, i))
+
+    while (verifyWinner(newGeneration, quantidadeRainhas) == False):
+        melhor_1, melhor_2 = getMelhoresIndividuos(newGeneration)
+        newGeneration = gerarIndividuosPorCrossover(melhor_1, melhor_2, 8)
+        for i in newGeneration:
+          i.set_Fitness(getFitness(chessTable.tabuleiro, i))
+        newGeneration = mutation(newGeneration)
+
+    print("Acabouuuuuuuuuuuuuu")
+
 main()

@@ -12,15 +12,13 @@ def main():
     for individuo in newGeneration:
         individuo.set_Fitness(getFitness(chessTable.tabuleiro, individuo))
 
-    for i in newGeneration:
-      i.set_Fitness(getFitness(chessTable.tabuleiro, i))
-
     while (verifyWinner(newGeneration, quantidadeRainhas) == False):
         melhor_1, melhor_2 = getMelhoresIndividuos(newGeneration)
         newGeneration = gerarIndividuosPorCrossover(melhor_1, melhor_2, 8)
+        newGeneration = mutation(newGeneration)
         for i in newGeneration:
           i.set_Fitness(getFitness(chessTable.tabuleiro, i))
-        newGeneration = mutation(newGeneration)
+        
 
     print("Acabouuuuuuuuuuuuuu")
 
